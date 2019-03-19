@@ -1,0 +1,37 @@
+{
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+  "files.eol": "\n",
+  "files.watcherExclude": {
+    "coverage": true,
+    "**/.git/objects/**": true,
+    "**/node_modules/**": true,
+    ".tmp": true,
+    "dist": true
+  },
+  "files.exclude": {
+    "dist": true,
+    "coverage": true,
+    ".tmp": true
+  },
+  "search.exclude": {
+    "dist": true,
+    "coverage": true,
+    ".tmp": true,
+    "typings": true
+  },
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "/pbiviz.json"
+      ],
+      "url": "./.api/v2.1.0/schema.pbiviz.json"
+    },
+    {
+      "fileMatch": [
+        "/capabilities.json"
+      ],
+      "url": "./.api/v2.1.0/schema.capabilities.json"
+    }
+  ]
+}

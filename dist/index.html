@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script src="./bundle.js"></script>
+  <script>
+    d3.csv('./sample-data.csv').then(function (data) {
+      var chartdata = [];
+      var csvContent = data.map(function (d) {
+        var tmp = {
+          option: d.brand,
+          category: d.theme,
+          //value: (+d.share),
+          value: Math.abs(+d.share),
+          color: d.color,
+          optionsorder: d.brandorder,
+          categoriesorder: d.themeorder,
+          selectionId: '123',
+        }
+        chartdata.push(tmp)
+        return d
+      });
+
+      var start = function () {
+        constructPage(chartdata, {
+          get: function () {
+            return {}
+          },
+          set: function (d) {
+            console.log('created settings:', JSON.stringify(d));
+            return true;
+          },
+          manageMySelections: function (d) {
+            console.log(d)
+          },
+          customClickHandler: function (a, b) {
+            console.log(a, b)
+          },
+          edit: false
+          //edit: true
+        });
+      };
+
+      //window.onresize = start;
+      start();
+    })
+  </script>
+</body>
+
+</html>
