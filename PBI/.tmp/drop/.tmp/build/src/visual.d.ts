@@ -1,4 +1,3 @@
-import "./../style/visual.less";
 import powerbi from "powerbi-visuals-api";
 import IVisual = powerbi.extensibility.visual.IVisual;
 import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
@@ -11,6 +10,7 @@ export declare class Visual implements IVisual {
     private colorPalette;
     private selectionManager;
     private selectionGroups;
+    private visualHostTooltipService;
     private dv;
     constructor(options: VisualConstructorOptions);
     private init;

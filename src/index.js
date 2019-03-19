@@ -21,6 +21,9 @@ var people = [];
 var peopleUnused = [];
 var stackVerticalHeightTracker = 0;
 var app = new PIXI.Application(chartWidth, chartHeight, { backgroundColor: 0xffffff, resolution: 2 });
+var pixiInteractionManager = new PIXI.interaction.InteractionManager(app.renderer)
+pixiInteractionManager.moveWhenInside = true;
+PIXI.utils.skipHello();
 var initFirst = false;
 var results;
 
@@ -255,7 +258,7 @@ function main() {
     stack.push(text.node);
     stackVerticalHeightTracker += text.height;
     app.stage.addChild(text.node);
-    
+
 
     for (var c = 0; c < d.values.length; c++) {
       var color = [colorutil.color(d.values[c].color).rgb.r, colorutil.color(d.values[c].color).rgb.g, colorutil.color(d.values[c].color).rgb.b];
@@ -324,8 +327,39 @@ function main() {
       selectionMask.hide = function () {
         this.alpha = 1;
       }
+      selectionMask.data = d.values[c]
       selectionMask.on('click', function (event) {
         config.customClickHandler(event, this);
+      });
+      selectionMask.on("mouseover", function (event) {
+        config.visualHostTooltipService.show({
+          coordinates: [event.data.global.x, event.data.originalEvent.clientY],
+          isTouchEvent: false,
+          dataItems: [{
+            displayName: (this.data.category || this.data.option || "") + '',
+            value: formFunc(this.data.value) + '',
+            color: this.data.color + ''
+          }],
+          identities: this.selectionId ? [this.selectionId] : [],
+        });
+      });
+      selectionMask.on("mousemove", function (event) {
+        config.visualHostTooltipService.move({
+          coordinates: [event.data.global.x, event.data.originalEvent.clientY],
+          isTouchEvent: false,
+          dataItems: [{
+            displayName: this.data.category || this.data.option + '',
+            value: formFunc(this.data.value) + '',
+            color: this.data.color + ''
+          }],
+          identities: this.selectionId ? [this.selectionId] : [],
+        });
+      });
+      selectionMask.on("mouseout", function () {
+        config.visualHostTooltipService.hide({
+          isTouchEvent: false,
+          immediately: true,
+        });
       });
       substack.push(selectionMask);
       selectionMaskArray.push(selectionMask);

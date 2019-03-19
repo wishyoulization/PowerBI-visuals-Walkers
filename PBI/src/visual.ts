@@ -61,15 +61,13 @@
  *  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import "./../style/visual.less";
-
 import * as d3 from "d3";
-import * as _ from "lodash";
 import powerbi from "powerbi-visuals-api";
 import constructPage from "../../dist/bundle.js";
 
 import IViewport = powerbi.IViewport;
 import ISelectionManager = powerbi.extensibility.ISelectionManager;
+import ITooltipService = powerbi.extensibility.ITooltipService;
 import ISelectionId = powerbi.visuals.ISelectionId;
 import IColorPalette = powerbi.extensibility.IColorPalette;
 import IVisual = powerbi.extensibility.visual.IVisual;
@@ -94,6 +92,7 @@ export class Visual implements IVisual {
     private colorPalette: IColorPalette;
     private selectionManager: ISelectionManager;
     private selectionGroups: any;
+    private visualHostTooltipService: ITooltipService;
     private dv: any;
 
     constructor(options: VisualConstructorOptions) {
@@ -101,6 +100,7 @@ export class Visual implements IVisual {
         this.host = options.host;
         this.selectionManager = options.host.createSelectionManager();
         this.selectionGroups = [];
+        this.visualHostTooltipService = options.host.tooltipService;
         this.selectionManager.registerOnSelectCallback(() => {
             this.syncSelectionState(this.selectionGroups, this.selectionManager.getSelectionIds() as ISelectionId[]);
         });
@@ -196,10 +196,13 @@ export class Visual implements IVisual {
                 let currC = dv.table.columns[c];
                 item[currC.displayName] = currR[c];
             }
+            if (typeof (item["color"]) === "undefined") {
+                let colorPalette: IColorPalette = this.host.colorPalette;
+                let color = colorPalette.getColor(item["category"] || item["option"]).value;
+                item["color"] = color;
+            }
             all.push(item);
         }
-
-        console.log(all);
 
         return {
             data: all
@@ -211,13 +214,13 @@ export class Visual implements IVisual {
         if (this.dv && this.dv.metadata.objects && this.dv.metadata.objects.chartSettings && this.dv.metadata.objects.chartSettings.config) {
             configString = this.dv.metadata.objects.chartSettings.config;
         }
-        console.log("saved cofig is: ", JSON.parse(configString));
+        // console.log("saved cofig is: ", JSON.parse(configString));
         return JSON.parse(configString);
     }
 
     public setConfig(config: any) {
         let configString: string = JSON.stringify(config) || "";
-        console.log("config to save is: ", configString);
+        // console.log("config to save is: ", configString);
         let objects: VisualObjectInstancesToPersist = {
             merge: [
                 <VisualObjectInstance>{
@@ -270,6 +273,7 @@ export class Visual implements IVisual {
             edit: options.editMode ? true : false,
             manageMySelections: this.manageMySelections.bind(this),
             customClickHandler: this.customClickHandler.bind(this),
+            visualHostTooltipService: this.visualHostTooltipService
         });
         let needToLoad = constructPage;
     }
