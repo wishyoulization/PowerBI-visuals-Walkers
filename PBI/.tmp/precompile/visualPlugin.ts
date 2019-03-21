@@ -2,8 +2,8 @@ import { Visual } from "../../src/visual";
 declare var powerbi;
 powerbi.visuals = powerbi.visuals || {};
 powerbi.visuals.plugins = powerbi.visuals.plugins || {};
-powerbi.visuals.plugins["wishyoulizationwalker"] = {
-    name: 'wishyoulizationwalker',
+powerbi.visuals.plugins["wishyoulizationwalkers"] = {
+    name: 'wishyoulizationwalkers',
     displayName: 'Walkers',
     class: 'Visual',
     version: '1.0.0',

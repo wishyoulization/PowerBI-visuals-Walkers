@@ -1,14 +1,14 @@
 {
     "version": "1.0.0",
-    "author": {"name":"Alok Pepakayala","email":"yo@wishyoulization.com"},
+    "author": {"name":"Wishyoulization","email":"yo@wishyoulization.com"},
     "resources": [
         {
             "resourceId": "rId0",
             "sourceType": 5,
-            "file": "resources/wishyoulizationwalker.pbiviz.json"
+            "file": "resources/wishyoulizationwalkers.pbiviz.json"
         }
     ],
-    "visual": {"name":"walkers","displayName":"Walkers","guid":"wishyoulizationwalker","visualClassName":"Visual","version":"1.0.0","description":"A custom visual for fun animated bar charts specifically for displaying survey results showing opinions.","supportUrl":"https://wishyoulization.com","gitHubUrl":"https://wishyoulization.com"},
+    "visual": {"name":"Walkers","displayName":"Walkers","guid":"wishyoulizationwalkers","visualClassName":"Visual","version":"1.0.0","description":"An animated pictographic bar chart for building visually appealing Power BI reports.","supportUrl":"https://wishyoulization.com","gitHubUrl":"https://github.com/wishyoulization/PowerBI-visuals-Walkers"},
     "metadata": {
         "pbivizjson": {
             "resourceId": "rId0"
