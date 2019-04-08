@@ -61,7 +61,7 @@
  *  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import * as d3 from "d3";
+import {select, keys} from "d3";
 import powerbi from "powerbi-visuals-api";
 import constructPage from "../../dist/bundle.js";
 
@@ -109,7 +109,7 @@ export class Visual implements IVisual {
     }
 
     private init(options: VisualConstructorOptions): void {
-        let appContainer = d3.select(options.element).append("div").attr("id", "appContainer");
+        let appContainer = select(options.element).append("div").attr("id", "appContainer");
         appContainer.style("width", "100%")
             .style("height", "100%")
             .style("overflow", "auto");
@@ -183,7 +183,7 @@ export class Visual implements IVisual {
         let all = [];
         for (let c = 0; c < dv.table.columns.length; c++) {
             let currC = dv.table.columns[c];
-            let field = d3.keys(currC.roles)[0];
+            let field = keys(currC.roles)[0];
             currC.displayName = field;
         }
 

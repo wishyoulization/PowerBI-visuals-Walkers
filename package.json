@@ -27,9 +27,9 @@
   },
   "dependencies": {
     "@tweenjs/tween.js": "^17.3.0",
+    "color-util": "^2.2.1",
     "d3": "^5.7.0",
     "dat.gui": "^0.7.5",
-    "pixi.js": "^4.3.2",
-    "color-util": "^2.2.1"
+    "pixi.js": "^4.8.7"
   }
 }

@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import * as d3 from "d3";
+import { keys, nest, scaleLinear } from "d3";
 import * as dat from 'dat.gui';
 var TWEEN = require('@tweenjs/tween.js');
 var colorutil = require('color-util');
@@ -20,7 +20,7 @@ var substack = [];
 var people = [];
 var peopleUnused = [];
 var stackVerticalHeightTracker = 0;
-var app = new PIXI.Application(chartWidth, chartHeight, { backgroundColor: 0xffffff, resolution: 2 });
+var app = new PIXI.Application(chartWidth, chartHeight, { resolution: window.devicePixelRatio, transparent: true, antialias: false, forceFXAA: true, premultipliedAlpha: true, roundPixels: true });
 var pixiInteractionManager = new PIXI.interaction.InteractionManager(app.renderer)
 pixiInteractionManager.moveWhenInside = true;
 PIXI.utils.skipHello();
@@ -69,7 +69,7 @@ function setupUI() {
   chartConfig.values = config.get();
 
   //build initial set if its empty.. 
-  if (!d3.keys(chartConfig.values).length) {
+  if (!keys(chartConfig.values).length) {
     buildConfigFromData();
   }
 
@@ -110,7 +110,7 @@ function setupUI() {
 
 
 function updateChart() {
-  let receivedData = d3.nest()
+  let receivedData = nest()
     .key(function (d) { return d.option; })
     .entries(data);
 
@@ -131,7 +131,7 @@ function updateChart() {
       }
       delete missingTracker[value.category];
     })
-    d3.keys(missingTracker).forEach(function (missingCategory) {
+    keys(missingTracker).forEach(function (missingCategory) {
       option.values.push({
         value: null,
         category: missingCategory,
@@ -267,8 +267,14 @@ function main() {
       var widthOfPerson = 20 * personScale;
       var heightOfRow = widthOfPerson * 1.8;
       var numberOfPeoplePerRow = widthOfRow / widthOfPerson;
-      var peopletopercentscale = d3.scaleLinear().domain([0, xMax]).range([0, numberOfPeoplePerRow])
+      var peopletopercentscale = scaleLinear().domain([0, xMax]).range([0, numberOfPeoplePerRow])
       var peopleForThisOption = peopletopercentscale(peopleForThisOptionActual)
+
+      if (peopleForThisOption > 100) {
+        // Prevent visual from crashing when large values are passed by capping the max people in each category..
+        peopleForThisOption = 100;
+      }
+
       var rowsRequiredToDisplayPeople = Math.ceil(peopleForThisOption / numberOfPeoplePerRow);
       var heightOfRegion = (heightOfRow * rowsRequiredToDisplayPeople) || heightOfRow;
 
@@ -395,6 +401,7 @@ function main() {
 
 
   // Animate 
+  app.ticker.speed = 0.2;
   app.ticker.add(function (t) {
     TWEEN.update();
   });
@@ -534,7 +541,7 @@ function prepareText(text, stackHeight, size, color, weight, textXOffset, fontFa
   });
   textNode.x = textXOffset || 0;
   textNode.y = stackHeight;
-  textNode.resolution = 2;
+  textNode.resolution = window.devicePixelRatio;
   return {
     node: textNode,
     height: textNode.height
@@ -604,7 +611,7 @@ function setPropsForAnim(anim, personScale) {
   anim.fps = 4;
 
   var filter = new PIXI.filters.ColorMatrixFilter();
-  filter.resolution = 2;
+  filter.resolution = window.devicePixelRatio;
   filter.matrix[3] = 1;
   filter.matrix[8] = 1;
   filter.matrix[13] = 1;

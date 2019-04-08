@@ -2,16 +2,18 @@
 <html>
 
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
 </head>
 
 <body>
   <div id="app"></div>
   <script src="./bundle.js"></script>
   <script>
-    d3.csv('./sample-data.csv').then(function (data) {
+    d3.csv('./sample-data.csv', function (data) {
       var chartdata = [];
-      var csvContent = data.map(function (d) {
+      var csvContent = data.filter(function (d) {
+        return d.theme == "One" || d.theme == "Two"
+      }).map(function (d) {
         var tmp = {
           option: d.brand,
           category: d.theme,
@@ -32,19 +34,19 @@
             return {}
           },
           set: function (d) {
-            console.log('created settings:', JSON.stringify(d));
+            //console.log('created settings:', JSON.stringify(d));
             return true;
           },
           manageMySelections: function (d) {
-            console.log(d)
+            //console.log(d)
           },
           customClickHandler: function (a, b) {
-            console.log(a, b)
+            //console.log(a, b)
           },
-          visualHostTooltipService:{
-            show:function(){},
-            hide:function(){},
-            move:function(){}
+          visualHostTooltipService: {
+            show: function () { },
+            hide: function () { },
+            move: function () { }
           },
           edit: false
           //edit: true

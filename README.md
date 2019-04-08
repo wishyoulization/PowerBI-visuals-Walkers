@@ -32,6 +32,3 @@ cd PowerBI-visuals-Walkers
 cd PBI
 npm run-script start
 ```
-
-## Privacy Policy
-The *Walkers* custom visual does not collect or use any of your personal information. 
