@@ -6,7 +6,7 @@ powerbi.visuals.plugins["wishyoulizationwalkers"] = {
     name: 'wishyoulizationwalkers',
     displayName: 'Walkers',
     class: 'Visual',
-    version: '1.0.0',
+    version: '1.0.1',
     apiVersion: '2.1.0',
     create: (options) => {
         if (Visual) {
