@@ -59,6 +59,11 @@
         {
             "table": {
                 "rows": {
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 25
+                        }
+                    },
                     "select": [
                         {
                             "for": {

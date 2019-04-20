@@ -261,7 +261,8 @@ function main() {
 
 
     for (var c = 0; c < d.values.length; c++) {
-      var color = [colorutil.color(d.values[c].color).rgb.r, colorutil.color(d.values[c].color).rgb.g, colorutil.color(d.values[c].color).rgb.b];
+      var color = colorutil.color(d.values[c].color);
+      //var color = [colorutil.color(d.values[c].color).rgb.r, colorutil.color(d.values[c].color).rgb.g, colorutil.color(d.values[c].color).rgb.b];
       var peopleForThisOptionActual = d.values[c].value || 0;
       var widthOfRow = chartWidth - 50;
       var widthOfPerson = 20 * personScale;
@@ -564,34 +565,30 @@ function stopSprit(anim) {
 }
 
 function changeColor(anim, c) {
-  var matrix = anim.filters[0].matrix;
-
-  var currentR = matrix[3];
-  var currentG = matrix[8];
-  var currentB = matrix[13];
-
-  var destinationR = c[0] / 255;
-  var destinationG = c[1] / 255;
-  var destinationB = c[2] / 255;
+  var old = colorutil.color(anim.tint || 0).rgb;
+  var newColor = c.rgb;
+  //anim.tint = c.int;
 
   if (anim.tween_color) {
     TWEEN.remove(anim.tween_color)
   }
 
   var tw = new TWEEN.Tween({
-    r: currentR,
-    g: currentG,
-    b: currentB,
+    r: old.r,
+    g: old.g,
+    b: old.b,
   })
     .to({
-      r: destinationR,
-      g: destinationG,
-      b: destinationB,
+      r: newColor.r,
+      g: newColor.g,
+      b: newColor.b,
     }, 1500)
     .onUpdate(function () {
-      matrix[3] = this._object.r;
-      matrix[8] = this._object.g;
-      matrix[13] = this._object.b;
+      anim.tint = colorutil.color({
+        r: this._object.r,
+        g: this._object.g,
+        b: this._object.b
+      }).int;
     })
     .interpolation(TWEEN.Interpolation.Bezier)
     .start();
@@ -610,12 +607,7 @@ function setPropsForAnim(anim, personScale) {
   addStatePlayer(anim);
   anim.fps = 4;
 
-  var filter = new PIXI.filters.ColorMatrixFilter();
-  filter.resolution = window.devicePixelRatio;
-  filter.matrix[3] = 1;
-  filter.matrix[8] = 1;
-  filter.matrix[13] = 1;
-  anim.filters = [filter];
+  anim.tint = 0xFF0000;
 }
 
 function getRandomArbitrary(min, max) {

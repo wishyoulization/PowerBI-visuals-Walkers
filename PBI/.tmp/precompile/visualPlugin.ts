@@ -4,9 +4,9 @@ powerbi.visuals = powerbi.visuals || {};
 powerbi.visuals.plugins = powerbi.visuals.plugins || {};
 powerbi.visuals.plugins["wishyoulizationwalkers"] = {
     name: 'wishyoulizationwalkers',
-    displayName: 'Walkers',
+    displayName: 'Walkers Animated Pictogram',
     class: 'Visual',
-    version: '1.0.1',
+    version: '1.0.2',
     apiVersion: '2.1.0',
     create: (options) => {
         if (Visual) {

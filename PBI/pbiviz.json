@@ -1,10 +1,10 @@
 {
   "visual": {
-    "name": "Walkers",
-    "displayName": "Walkers",
+    "name": "Walkers Animated Pictogram",
+    "displayName": "Walkers Animated Pictogram",
     "guid": "wishyoulizationwalkers",
     "visualClassName": "Visual",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "An animated pictographic bar chart for building visually appealing Power BI reports.",
     "supportUrl": "https://www.wishyoulization.com/powerbi",
     "gitHubUrl": "https://github.com/wishyoulization/PowerBI-visuals-Walkers"
